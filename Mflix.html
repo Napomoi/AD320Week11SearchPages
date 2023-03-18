@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Comment -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Find a Movie</title>
+</head>
+
+<body>
+  <main>
+    <h1>Find a Movie to Watch</h1>
+    <h2>Movie Genre</h2>
+    <!-- <input type="text" id="property_type" name="property_type"><br><br> -->
+    <input type="text" id="filter1" name="filter1" list="movie_list" />
+    <datalist id="movie_list">
+      <option>Comedy</option>
+      <option>Drama</option>
+      <option>Crime</option>
+      <option>Documentary</option>
+      <option>Short</option>
+    </datalist>
+    <h2>Country</h2>
+    <input type="text" id="filter2" name="filter2" list="borough_list" />
+    <datalist id="borough_list">
+      <option>USA</option>
+      <option>Canada</option>
+      <option>Japan</option>
+      <option>Korea</option>
+      <option>France</option>
+    </datalist><br><br>
+    </form>
+    <button onclick="Restaurant()"> Search Now </button>
+    <p id="dog-facts"></p>
+
+  </main>
+  <script>
+    async function Restaurant() {
+
+      // const num_bedrooms = document.getElementById("bedrooms").value;
+      // const num_bedrooms_number = parseInt(num_bedrooms, 10);
+
+      // const num_beds = document.getElementById("beds").value;
+      // const num_beds_number = parseInt(num_beds, 10);
+
+      const genre = document.getElementById("filter1").value;
+      console.log(genre)
+      const country = document.getElementById("filter2").value;
+      console.log(country)
+
+
+
+      const body_data = {
+        // dataSource: "Cluster0",
+        database: "sample_mflix",
+        collection: "movies",
+        filter: {
+          "type": "movie"
+        },
+        projection: {
+          "title": 1,
+          "plot": 1,
+          "country": 1
+        },
+      }
+      const second_parameter = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          // 'api-key': 'YzGrVKg0J6iqg7rdsFNJdt3cpQdzi9fSBKo1CYmqug82oBy1Xrp2yHQDMf8kxIcg'
+        },
+        body: JSON.stringify(body_data)
+      }
+
+      console.log(body_data)
+
+      // const api_endpoint = 'http://localhost:3005/findOne?cuisine=${cuisine}&borough=${borough}`;
+      const api_endpoint = 'http://localhost:3005/findOne'
+
+      const response = await fetch(api_endpoint, second_parameter);
+      const json_response = await response.json()
+      console.log(json_response);
+
+      // const response = await fetch(api_endpoint);
+
+      // const json_response = await response.json()
+      const myJSON = JSON.stringify(json_response);
+
+      document.getElementById("dog-facts").innerHTML = myJSON;
+
+
+
+
+    }
+
+
+  </script>
+</body>
+
+</html>
