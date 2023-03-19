@@ -31,10 +31,23 @@
       <option>Japan</option>
       <option>Korea</option>
       <option>France</option>
-    </datalist><br><br>
+    </datalist>
+    <h2>Year</h2>
+    <input id="year" type="number" value=""><br><br>
+
+
+
     </form>
     <button onclick="Restaurant()"> Search Now </button>
-    <p id="dog-facts"></p>
+
+    <h2 id="movieTitle"></h2>
+    <p id="plot"></p>
+    <p id="genre"></p>
+    <p id="cast"></p>
+    <p id="country"></p>
+    <p id="language"></p>
+    <p id="year"></p>
+    <p id="runtime"></p>
 
   </main>
   <script>
@@ -50,7 +63,8 @@
       console.log(genre)
       const country = document.getElementById("filter2").value;
       console.log(country)
-
+      const yearString = document.getElementById("year").value;
+      year = parseInt(yearString)
 
 
       const body_data = {
@@ -58,12 +72,18 @@
         database: "sample_mflix",
         collection: "movies",
         filter: {
-          "type": "movie"
+          "type": "movie",
+          "genres": genre,
+          "countries": country,
+          "year": year
+
+
+
         },
         projection: {
-          "title": 1,
-          "plot": 1,
-          "country": 1
+          // "title": 1,
+          // "plot": 1,
+          // "country": 1
         },
       }
       const second_parameter = {
@@ -88,9 +108,19 @@
       // const response = await fetch(api_endpoint);
 
       // const json_response = await response.json()
-      const myJSON = JSON.stringify(json_response);
+      // const myJSON = JSON.stringify(json_response);
 
-      document.getElementById("dog-facts").innerHTML = myJSON;
+
+      document.getElementById("movieTitle").innerHTML = "Title: " + json_response.title;
+      document.getElementById("plot").innerHTML = "Plot: " + json_response.plot;
+      document.getElementById("cast").innerHTML = "Cast: " + json_response.cast;
+      document.getElementById("country").innerHTML = "Country(s): " + json_response.countries;
+      document.getElementById("language").innerHTML = "Language(s) " + json_response.languages;
+      document.getElementById("runtime").innerHTML = "Runtime: " + json_response.runtime;
+      document.getElementById("runtime").innerHTML = "Year: " + json_response.year;
+      document.getElementById("genre").innerHTML = "Genre: " + json_response.genres;
+
+
 
 
 
